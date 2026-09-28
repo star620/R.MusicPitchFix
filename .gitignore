@@ -1,0 +1,11 @@
+# 构建产物
+bin/
+obj/
+dist/
+
+# 构建引用（需自行放置）
+refs/
+
+# IDE
+.vs/
+*.user

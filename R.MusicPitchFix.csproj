@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    构建前提（详见 README.md）：
+    - .NET SDK（含 .NET Framework 4.8 引用程序集，会自动还原）
+    - refs/Terraria.exe：Terraria 1.4.5.x 客户端主程序（从你的游戏目录复制）
+    - refs/R.PluginSwitch.dll：R-TA-RA2526 客户端插件框架（从 R.PluginSwitch.rym 解压获得）
+    - 本机已安装 XNA 4.0 运行时（GAC 中的 Microsoft.Xna.Framework.dll）
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>R.MusicPitchFix</AssemblyName>
+    <RootNamespace>R.MusicPitchFix</RootNamespace>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Terraria">
+      <HintPath>refs\Terraria.exe</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="R.PluginSwitch">
+      <HintPath>refs\R.PluginSwitch.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!-- 原版 Windows 客户端使用 XNA 4.0（GAC），此处仅用于编译期类型解析 -->
+    <Reference Include="Microsoft.Xna.Framework">
+      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>
