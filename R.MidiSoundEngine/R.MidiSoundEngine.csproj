@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    构建前提（与 R.MusicPitchFix 相同）：
+    - .NET SDK（含 .NET Framework 4.8 引用程序集）
+    - ../refs/Terraria.exe：Terraria 1.4.5.x 客户端主程序
+    - ../refs/R.PluginSwitch.dll：R-TA-RA2526 插件框架
+    - 本机已装 XNA 4.0 运行时（GAC）
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>R.MidiSoundEngine</AssemblyName>
+    <RootNamespace>R.MidiSoundEngine</RootNamespace>
+    <Nullable>disable</Nullable>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- NAudio 1.10.0：经典单 DLL，无多程序集依赖 -->
+    <PackageReference Include="NAudio" Version="1.10.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Terraria">
+      <HintPath>..\refs\Terraria.exe</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="R.PluginSwitch">
+      <HintPath>..\refs\R.PluginSwitch.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework">
+      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -7,6 +7,17 @@ Terraria 1.4.5.x 原版客户端插件：修复 **MIDI 音乐播放时的音高�
 
 ***
 
+## 仓库结构
+
+| 目录 | 插件 | 作用 |
+|---|---|---|
+| `/`（本目录） | `R.MusicPitchFix` | 音高归零 + MIDI 播放期间自动静音环境音 |
+| `R.MidiSoundEngine/` | `R.MidiSoundEngine` | **竖琴/铃铛/吉他斧改走 NAudio 预重采样播放**，绕开 XNA 实时 SRC 卡顿（最终根治残余卡顿） |
+
+两个插件建议**同时部署**：前者解决音高污染 + 环境音抢占混音预算的主因，后者把三件乐器从 XNA 音频线程旁路出去（残余 harp/bell 卡顿的根治方案）。
+
+***
+
 ## 功能
 
 1. **音高污染修复**：每帧把全局音高基准 `Main.musicPitch` 归零，消除"任何人手弹竖琴/铃铛/吉他斧后，MIDI 旋律音高被永久平移/钳平"的问题（无需重启客户端）。
@@ -74,11 +85,26 @@ dotnet build -c Release
 # 产物：R.MusicPitchFix.rym
 ```
 
+### R.MidiSoundEngine（旁路音引擎）独立构建
+
+```powershell
+# 在子目录构建（引用 ../refs/ 中的程序集）
+cd R.MidiSoundEngine
+dotnet build -c Release
+
+# 打包；并把 NAudio.dll 一并放进 Plugins\
+..\tools\RymConverter.ps1 -InputPath "bin\Release\net48\R.MidiSoundEngine.dll" -Reverse
+# 产物：R.MidiSoundEngine.rym（需与 bin\Release\net48\NAudio.dll 一起部署）
+```
+
+> 注意：`R.MidiSoundEngine` 依赖 **NAudio 1.10.0**（经典单 DLL，无多程序集拆分）。把 `NAudio.dll` 也放进 `Plugins\` 目录，框架的 AssemblyResolve 会自动解析。
+
 ## 部署
 
 1. 把 `R.MusicPitchFix.rym` 放进 **游戏根目录** 的 `Plugins\`（与 `R.PluginSwitch.rym` 同目录）；
-2. 启动游戏，插件随 R-TA-RA2526 框架自动加载；
-3. 运行日志写入 `Plugins\R.PluginSwitch.log`。
+2. 若使用 MidiSoundEngine：同时放入 `R.MidiSoundEngine.rym` 和 `NAudio.dll`；
+3. 启动游戏，插件随 R-TA-RA2526 框架自动加载；
+4. 运行日志写入 `Plugins\R.PluginSwitch.log`。
 
 ## 验证
 
